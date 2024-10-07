@@ -14,15 +14,16 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Kelas FrameUtama adalah tampilan utama untuk aplikasi contact manager.
- * Kelas ini menampilkan kontak dalam bentuk tabel dan memiliki method
- * untuk menambah, mengedit, dan menghapus kontak yang tersimpan dalam database.
- * 
+ * Kelas FrameUtama adalah tampilan utama untuk aplikasi contact manager. Kelas
+ * ini menampilkan kontak dalam bentuk tabel dan memiliki method untuk menambah,
+ * mengedit, dan menghapus kontak yang tersimpan dalam database.
+ *
  * @author Raihan
  */
+
 public class FrameUtama extends javax.swing.JFrame {
 
-     /**
+    /**
      * Koneksi ke database
      */
     private Connection conn;
@@ -37,7 +38,8 @@ public class FrameUtama extends javax.swing.JFrame {
     }
 
     /**
-     * Mengambil data dari tabel "contacts" dalam database dan menampilkannya pada tabel
+     * Mengambil data dari tabel "contacts" dalam database dan menampilkannya
+     * pada tabel
      */
     private void getData() {
         DefaultTableModel contactTable = (DefaultTableModel) JTcontact.getModel();
@@ -67,7 +69,7 @@ public class FrameUtama extends javax.swing.JFrame {
         }
     }
 
-     /**
+    /**
      * Mengosongkan semua input field .
      */
     private void resetForm() {
@@ -297,8 +299,9 @@ public class FrameUtama extends javax.swing.JFrame {
     }//GEN-LAST:event_tfPhonenumbActionPerformed
 
     /**
-     * Fungsi Button ini menambahkan data kontak
-     * baru ke database dan memperbarui tampilan tabel.
+     * Fungsi Button ini menambahkan data kontak baru ke database dan
+     * memperbarui tampilan tabel.
+     *
      * @param evt Event ketika tombol Add ditekan.
      */
     private void bAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddActionPerformed
@@ -311,6 +314,19 @@ public class FrameUtama extends javax.swing.JFrame {
         if (!name.equalsIgnoreCase("") && !phone_numb.equalsIgnoreCase("") && !email.equalsIgnoreCase("") && !job_title.equalsIgnoreCase("") && !company.equalsIgnoreCase("")) {
 
             try {
+                String checkSql = "SELECT COUNT(*) FROM contacts WHERE phone_numb = ?";
+                PreparedStatement checkSt = conn.prepareStatement(checkSql);
+                checkSt.setString(1, phone_numb);
+
+                ResultSet rs = checkSt.executeQuery();
+                rs.next();
+                int count = rs.getInt(1);
+
+                if (count > 0) {
+                    JOptionPane.showMessageDialog(this, "Phone number already exists in the database!");
+                    return;
+                }
+
                 String sql = "INSERT INTO contacts (name,phone_numb,email,job_title,company) VALUES (?,?,?,?,?)";
                 PreparedStatement st = conn.prepareStatement(sql);
                 st.setString(1, name);
@@ -349,8 +365,9 @@ public class FrameUtama extends javax.swing.JFrame {
     }//GEN-LAST:event_tfCompanyActionPerformed
 
     /**
-     * Fungsi ini memperbarui kontak yang dipilih dari tabel
-     * dan menyimpannya ke database.
+     * Fungsi ini memperbarui kontak yang dipilih dari tabel dan menyimpannya ke
+     * database.
+     *
      * @param evt Event ketika tombol Edit ditekan.
      */
     private void bEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditActionPerformed
@@ -370,6 +387,20 @@ public class FrameUtama extends javax.swing.JFrame {
 
         if (!name.equalsIgnoreCase("") && !phone_numb.equalsIgnoreCase("") && !email.equalsIgnoreCase("") && !job_title.equalsIgnoreCase("") && !company.equalsIgnoreCase("")) {
             try {
+                String checkSql = "SELECT COUNT(*) FROM contacts WHERE phone_numb = ?";
+                PreparedStatement checkSt = conn.prepareStatement(checkSql);
+                checkSt.setString(1, phone_numb);
+
+                ResultSet rs = checkSt.executeQuery();
+                rs.next();
+                int count = rs.getInt(1); // Ambil hasil hitungan
+
+                if (count > 0) {
+                    // Jika nomor telepon sudah ada, tampilkan pesan dan batalkan proses
+                    JOptionPane.showMessageDialog(this, "Phone number already exists in the database!");
+                    return;
+                }
+
                 String sql = "UPDATE contacts SET name=?, phone_numb=?, email=?, job_title=?, company=? WHERE id=?";
                 PreparedStatement st = conn.prepareStatement(sql);
                 st.setString(1, name);
@@ -397,9 +428,9 @@ public class FrameUtama extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bEditActionPerformed
 
-     /**
-     * Fungsi ini mengisi field input berdasarkan data
-     * dari baris yang dipilih.
+    /**
+     * Fungsi ini mengisi field input berdasarkan data dari baris yang dipilih.
+     *
      * @param evt Event saat baris tabel diklik.
      */
     private void JTcontactMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTcontactMouseClicked
@@ -420,9 +451,9 @@ public class FrameUtama extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_JTcontactMouseClicked
 
-     /**
-     * Fungsi ini menghapus kontak yang dipilih
-     * dari tabel dan database.
+    /**
+     * Fungsi ini menghapus kontak yang dipilih dari tabel dan database.
+     *
      * @param evt Event ketika tombol Delete ditekan.
      */
     private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
