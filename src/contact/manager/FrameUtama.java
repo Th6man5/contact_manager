@@ -14,15 +14,21 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
+ * Kelas FrameUtama adalah tampilan utama untuk aplikasi contact manager.
+ * Kelas ini menampilkan kontak dalam bentuk tabel dan memiliki method
+ * untuk menambah, mengedit, dan menghapus kontak yang tersimpan dalam database.
+ * 
  * @author Raihan
  */
 public class FrameUtama extends javax.swing.JFrame {
 
+     /**
+     * Koneksi ke database
+     */
     private Connection conn;
 
     /**
-     * Creates new form FrameUtama
+     * Membuat form FrameUtama dan menginisialisasi komponen-komponennya.
      */
     public FrameUtama() {
         initComponents();
@@ -30,6 +36,9 @@ public class FrameUtama extends javax.swing.JFrame {
         getData();
     }
 
+    /**
+     * Mengambil data dari tabel "contacts" dalam database dan menampilkannya pada tabel
+     */
     private void getData() {
         DefaultTableModel contactTable = (DefaultTableModel) JTcontact.getModel();
         contactTable.setRowCount(0);
@@ -58,6 +67,9 @@ public class FrameUtama extends javax.swing.JFrame {
         }
     }
 
+     /**
+     * Mengosongkan semua input field .
+     */
     private void resetForm() {
         tfName.setText("");
         tfPhonenumb.setText("");
@@ -284,6 +296,11 @@ public class FrameUtama extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfPhonenumbActionPerformed
 
+    /**
+     * Fungsi Button ini menambahkan data kontak
+     * baru ke database dan memperbarui tampilan tabel.
+     * @param evt Event ketika tombol Add ditekan.
+     */
     private void bAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddActionPerformed
         // TODO add your handling code here:
         String name = tfName.getText();
@@ -331,6 +348,11 @@ public class FrameUtama extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfCompanyActionPerformed
 
+    /**
+     * Fungsi ini memperbarui kontak yang dipilih dari tabel
+     * dan menyimpannya ke database.
+     * @param evt Event ketika tombol Edit ditekan.
+     */
     private void bEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditActionPerformed
         // TODO add your handling code here:
         int selectedRow = JTcontact.getSelectedRow();
@@ -375,6 +397,11 @@ public class FrameUtama extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bEditActionPerformed
 
+     /**
+     * Fungsi ini mengisi field input berdasarkan data
+     * dari baris yang dipilih.
+     * @param evt Event saat baris tabel diklik.
+     */
     private void JTcontactMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTcontactMouseClicked
         // TODO add your handling code here:
         int selectedRow = JTcontact.getSelectedRow();
@@ -393,6 +420,11 @@ public class FrameUtama extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_JTcontactMouseClicked
 
+     /**
+     * Fungsi ini menghapus kontak yang dipilih
+     * dari tabel dan database.
+     * @param evt Event ketika tombol Delete ditekan.
+     */
     private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
         // TODO add your handling code here:
         int selectedRow = JTcontact.getSelectedRow();

@@ -13,20 +13,31 @@ import java.util.logging.Logger;
 /**
  *
  * @author Raihan
+ * @version 23
+ */
+/**
+ * Class Koneksi digunakan untuk mengconect ke dalam MySQL Database
  */
 public class Koneksi {
-    // Gunakan java.sql.Connection
+    /**
+     * Digunakan untuk menyimpan koneksi database
+     */
     private static Connection conn;
-    
+
+    /**
+     * membuat koneksi baru ke database MySQL yang ditentukan.
+     * 
+     * @return Koneksi database aktif.
+     */
     public static Connection getConnection() {
         if (conn == null) {
             try {
                 String url = "jdbc:mysql://localhost:3306/contact_manager";
-                String user = "root";
-                String pass = "";
-                
+                String user = "root"; 
+                String pass = ""; 
+
                 DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-                
+
                 conn = DriverManager.getConnection(url, user, pass);
                 
             } catch (SQLException e) {
@@ -36,4 +47,5 @@ public class Koneksi {
         return conn;
     }
 }
+
 
